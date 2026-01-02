@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::io;
+use std::{io};
 fn main() {
     println!("### Juste Prix ###");
 
@@ -8,23 +8,30 @@ fn main() {
     //gen_range(1..=100) : génère un nombre entre 1 et 100 INCLUS !!
     let secret_number: i32 = rand::thread_rng().gen_range(1..=100);
     
-    let mut guess: String= String::new();
+    
 
-    loop {
-        guess.clear(); //Ne pas oublier ! 
-        
-        println!("Entrez un nombre");
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Entrez un nombre valide !");
+    fn guess_num() -> i32 {
+        let mut guess: String= String::new();
+        loop{
+            guess.clear();
+            println!("Entrez un nombre");
+            io::stdin()
+                .read_line(&mut guess)
+                .expect("Erreur lecture");
 
-        let nb_guessed: i32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("Entrez un vrai nombre !");
-                continue;
+            match guess.trim().parse() {
+                Ok(num) => {return num;
+                },
+                Err(_) => {
+                    println!("Entrez un nombre valide !");
+                    continue;
             }
         };
+    }       
+}
+
+    loop {
+        let nb_guessed = guess_num();
 
         if nb_guessed == secret_number {
             println!("Juste prix ! Vous avez gagné rien du tout !");
@@ -34,5 +41,9 @@ fn main() {
         } else {
             println!("C'est plus !");
         };
-    }
-}
+
+         
+            }
+        }
+
+        
