@@ -1,14 +1,23 @@
 mod router;
 mod server;
+
 use router::Router;
 use server::Server;
 
 fn main() {
-    let srv_one = Server::new("Server one".to_string(), "192.168.0.1".to_string());
-    let router_one = Router::new("Router one".to_string(), "192.168.0.2".to_string(), 4);
+    let mut cluster: Vec<Server> = Vec::new();
 
-    start_diag(&srv_one);
-    start_diag(&router_one);
+    for i in 1..=10 {
+        let srv_name = format!("srv{}", i,);
+
+        let srv_ip = format!("192.168.0.{}", i);
+
+        cluster.push(Server::new(srv_name, srv_ip)); //Technique à retenir !
+    }
+
+    for s in &cluster {
+        start_diag(s);
+    }
 }
 
 pub trait Pingable {
